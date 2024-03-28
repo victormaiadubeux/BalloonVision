@@ -1,0 +1,7 @@
+streamlit
+pandas
+requests
+Pillow  # This is the PIL library, known as Pillow in PyPI
+huggingface_hub
+torch  # You might want to specify CUDA version compatibility
+diffusers  # Specify the version if your code depends on specific features
