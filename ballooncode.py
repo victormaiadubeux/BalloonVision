@@ -7,7 +7,24 @@ from io import BytesIO
 from huggingface_hub import HfFolder
 import torch
 from diffusers import DiffusionPipeline
+import os
+import requests
+import csv
+import io
+import requests
+import pandas as pd
+import io
 
+# Set your Hugging Face API key here (be cautious with your API key)
+hf_api_key = "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"
+# Save the API key in Hugging Face folder (this method avoids exposing the API key in your environment variables)
+HfFolder.save_token(hf_api_key)
+ # Now you can directly use the API for accessing models, etc., without needing to log in manually through notebook_login
+model_id = "CompVis/stable-diffusion-v1-4"
+device = "cuda" if torch.cuda.is_available() else "cpu"
+
+pipe = DiffusionPipeline.from_pretrained(model_id, use_auth_token=True)
+pipe = pipe.to(device)
 
 
 # Streamlit UI
@@ -15,25 +32,9 @@ st.title("Balloon Vision")
 
 if st.button('Click here to see what our balloon is seeing right now!'):
     with st.spinner('Loading! Wait time is around 2 minutes'):
-        # Set your Hugging Face API key here (be cautious with your API key)
-        hf_api_key = "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"
+        
 
-        # Save the API key in Hugging Face folder (this method avoids exposing the API key in your environment variables)
-        HfFolder.save_token(hf_api_key)
-
-        # Now you can directly use the API for accessing models, etc., without needing to log in manually through notebook_login
-        model_id = "CompVis/stable-diffusion-v1-4"
-        device = "cuda" if torch.cuda.is_available() else "cpu"
-
-        pipe = DiffusionPipeline.from_pretrained(model_id, use_auth_token=True)
-        pipe = pipe.to(device)
-
-        import requests
-        import csv
-        import io
-        import requests
-        import pandas as pd
-        import io
+        
 
         # Google Sheet ID and sheet name
         sheet_id = "1dFDXF94fu2UweY9r0cNijWwIjCjsemsYZ4foXTRFW14"
@@ -53,9 +54,6 @@ if st.button('Click here to see what our balloon is seeing right now!'):
         column_values = df.iloc[:, 0]  # This selects all rows of the first column
         last_filled_prompt = column_values.dropna().iloc[-1]  # Drop NA values first, then select the last
 
-        print(last_filled_prompt)
-
-        import os
 
         # Set your prompt
         prompt = last_filled_prompt
