@@ -62,7 +62,7 @@ if st.button('Click here to see what our balloon is seeing right now!'):
 
         # Adjust parameters for faster generation
         gen_kwargs = {
-            "num_inference_steps": 10,  # Default is higher, reducing it can speed up the process
+            "num_inference_steps": 1,  # Default is higher, reducing it can speed up the process
         }
 
         # Generate image with adjusted parameters
