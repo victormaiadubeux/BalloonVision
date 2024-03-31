@@ -49,16 +49,24 @@ if st.button('Click here to see what our balloon is seeing right now!'):
         # Use pandas to read the CSV data into a DataFrame
         df = pd.read_csv(io.StringIO(response.text))
 
-        # Assuming you want the last filled value from the first column (Python index starts at 0)
+      # Assuming you want the last filled value from the first column (Python index starts at 0)
         column_values = df.iloc[:, 0]  # This selects all rows of the first column
         last_filled_prompt = column_values.dropna().iloc[-1]  # Drop NA values first, then select the last
-
+        
+        # Extract the text after "caption: "
+        caption_prefix = "caption: "
+        if caption_prefix in last_filled_prompt:
+            text_after_caption = last_filled_prompt.split(caption_prefix, 1)[1]
+        else:
+            text_after_caption = "No caption prefix found in the last filled prompt."
+        
+        print(text_after_caption)
     
 
         import os
 
         # Set your prompt
-        prompt = last_filled_prompt
+        prompt = text_after_caption
 
         # Adjust parameters for faster generation
         gen_kwargs = {
