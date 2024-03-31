@@ -54,7 +54,7 @@ if st.button('Click here to see what our balloon is seeing right now!'):
         last_filled_prompt = column_values.dropna().iloc[-1]  # Drop NA values first, then select the last
         
         # Extract the text after "caption: "
-        caption_prefix = "caption: "
+        caption_prefix = "Caption: "
         if caption_prefix in last_filled_prompt:
             text_after_caption = last_filled_prompt.split(caption_prefix, 1)[1]
         else:
